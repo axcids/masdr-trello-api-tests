@@ -1,0 +1,21 @@
+{
+  "name": "masdr-trello-api-tests",
+  "version": "1.0.0",
+  "description": "Automated API test suite for the Trello REST API",
+  "type": "commonjs",
+  "scripts": {
+    "test": "playwright test",
+    "test:functional": "playwright test --project=functional",
+    "test:performance": "playwright test --project=performance --workers=1",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["playwright", "api-testing", "trello", "typescript"],
+  "author": "Abdulmajeed Albilal",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.4.0",
+    "dotenv": "^17.4.2",
+    "typescript": "^7.0.2"
+  }
+}
