@@ -1,6 +1,6 @@
 # Trello API Test Automation
 
-[![Trello API Tests](https://github.com/axcids/Masdr_Technical_Challenge/actions/workflows/api-tests.yml/badge.svg)](https://github.com/axcids/Masdr_Technical_Challenge/actions/workflows/api-tests.yml)
+[![Trello API Tests](https://github.com/axcids/masdr-trello-api-tests/actions/workflows/api-tests.yml/badge.svg)](https://github.com/axcids/masdr-trello-api-tests/actions/workflows/api-tests.yml)
 
 Automated functional and performance testing of the Trello REST API, built with
 Playwright and TypeScript. Covers a realistic end-to-end workflow — create a
@@ -8,7 +8,7 @@ board, add a list, add a card, update it, tear the whole setup down — plus
 endpoint-level coverage of boards, lists and cards, and response-time SLA
 validation.
 
-**Live Allure report:** https://axcids.github.io/Masdr_Technical_Challenge/
+**Live Allure report:** https://axcids.github.io/masdr-trello-api-tests/
 
 Design decisions, API findings and known limitations are documented in
 [ASSUMPTIONS.md](./ASSUMPTIONS.md).
@@ -36,8 +36,8 @@ Choose `expiration=never` so the token does not expire mid-review.
 ### Setup
 
 ```bash
-git clone https://github.com/axcids/Masdr_Technical_Challenge.git
-cd Masdr_Technical_Challenge
+git clone https://github.com/axcids/masdr-trello-api-tests.git
+cd masdr-trello-api-tests
 npm ci
 cp .env.example .env      # then fill in your key and token
 ```
