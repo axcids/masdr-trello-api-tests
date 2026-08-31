@@ -1,0 +1,1 @@
+[perf] post-card: n=20 p50=251.1ms p90=342.24ms p95=349.37ms max=500ms (rate-limited: 0)
