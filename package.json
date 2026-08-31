@@ -4,20 +4,29 @@
   "description": "Automated API test suite for the Trello REST API",
   "type": "commonjs",
   "scripts": {
+    "clean": "rimraf allure-results allure-report playwright-report test-results",
     "typecheck": "tsc --noEmit",
-    "pretest": "npm run typecheck",
+    "pretest": "npm run clean && npm run typecheck",
     "test": "playwright test",
     "test:e2e": "playwright test --project=e2e",
     "test:functional": "playwright test --project=functional",
     "test:performance": "playwright test --project=performance --workers=1",
-    "verify": "npm run typecheck && playwright test"
+    "report": "allure generate allure-results -o allure-report",
+    "report:open": "allure open allure-report",
+    "verify": "npm run clean && npm run typecheck && playwright test"
   },
-  "keywords": ["playwright", "api-testing", "trello", "typescript"],
+  "keywords": [
+    "playwright",
+    "api-testing",
+    "trello",
+    "typescript"
+  ],
   "author": "Abdulmajeed Albilal",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.62.1",
     "@types/node": "^26.4.0",
+    "allure-playwright": "^3.11.0",
     "dotenv": "^17.4.2",
     "typescript": "^7.0.2"
   }

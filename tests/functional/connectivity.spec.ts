@@ -1,8 +1,15 @@
 import { test, expect } from '@playwright/test';
 import { TrelloClient } from '../../src/clients/trello.client';
+import * as allure from 'allure-js-commons';
+
 import type { TrelloError } from '../../src/types/trello.types';
 
 test.describe('API connectivity and authentication', () => {
+    test.beforeEach(async () => {
+        await allure.epic('Trello API');
+        await allure.feature('Connectivity');
+        await allure.tag('functional');
+    });
     test('returns the authenticated member for valid credentials', async ({ request }) => {
         const trello = new TrelloClient(request);
         const response = await trello.get<{ id: string; username: string }>(

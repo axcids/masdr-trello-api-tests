@@ -1,8 +1,15 @@
 import { test, expect } from '../../src/fixtures/trello.fixtures';
 import { uniqueName } from '../../src/utils/naming';
+import * as allure from 'allure-js-commons';
+
 import type { TrelloBoard } from '../../src/types/trello.types';
 
 test.describe('Boards endpoint', () => {
+    test.beforeEach(async () => {
+        await allure.epic('Trello API');
+        await allure.feature('Boards');
+        await allure.tag('functional');
+    });
     test.describe('POST /boards', () => {
         test('creates a board with only the required name', async ({ createBoard }) => {
             const name = uniqueName('board');

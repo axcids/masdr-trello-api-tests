@@ -22,6 +22,36 @@ export default defineConfig({
     reporter: [
         ['list'],
         ['html', { open: 'never' }],
+        ['allure-playwright', {
+            resultsDir: 'allure-results',
+            detail: true,
+            suiteTitle: true,
+            environmentInfo: {
+                node_version: process.version,
+                os: process.platform,
+                api_base_url: process.env.TRELLO_BASE_URL ?? 'https://api.trello.com/1',
+                read_sla_ms: process.env.SLA_READ_MS ?? '1000',
+                write_sla_ms: process.env.SLA_WRITE_MS ?? '1500',
+                ci: String(Boolean(process.env.CI)),
+            },
+            categories: [
+                {
+                    name: 'Rate limiting',
+                    messageRegex: '.*429.*',
+                    matchedStatuses: ['failed', 'broken'],
+                },
+                {
+                    name: 'SLA breach',
+                    messageRegex: '.*toBeLessThan.*',
+                    matchedStatuses: ['failed'],
+                },
+                {
+                    name: 'Authentication failure',
+                    messageRegex: '.*401.*',
+                    matchedStatuses: ['failed', 'broken'],
+                },
+            ],
+        }],
     ],
     // Shared settings for all the projects below.
     use: {

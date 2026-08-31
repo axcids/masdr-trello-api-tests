@@ -1,9 +1,16 @@
 import { test, expect } from '../../src/fixtures/trello.fixtures';
 import { uniqueName } from '../../src/utils/naming';
+import * as allure from 'allure-js-commons';
 
 import type { TrelloBoard, TrelloList, TrelloCard } from '../../src/types/trello.types';
 
 test.describe('Trello end-to-end workflow', () => {
+    test.beforeEach(async () => {
+        await allure.epic('Trello API');
+        await allure.feature('End-to-end workflow');
+        await allure.severity(allure.Severity.CRITICAL);
+        await allure.tag('e2e');
+    });
     test('creates a board, list and card, updates the card, then removes everything', async ({trello, }) => {
         // Resources are created and destroyed by the test itself, because
         // teardown is part of the workflow under test. The run-scoped orphan

@@ -1,8 +1,15 @@
 import { test, expect } from '../../src/fixtures/trello.fixtures';
 import { uniqueName } from '../../src/utils/naming';
+import * as allure from 'allure-js-commons';
+
 import type { TrelloCard, TrelloList } from '../../src/types/trello.types';
 
 test.describe('Cards endpoint', () => {
+    test.beforeEach(async () => {
+        await allure.epic('Trello API');
+        await allure.feature('Cards');
+        await allure.tag('functional');
+    });
     test.describe('POST /cards', () => {
         test('creates a card with idList as the only required parameter', async ({
             trello,
