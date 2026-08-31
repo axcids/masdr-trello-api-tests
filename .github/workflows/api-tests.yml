@@ -98,7 +98,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
-          force_orphan: true
 
       - name: Fail the build if any tests failed
         if: steps.tests.outcome == 'failure' || steps.perf.outcome == 'failure'
