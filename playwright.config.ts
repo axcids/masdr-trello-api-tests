@@ -4,6 +4,9 @@ import 'dotenv/config';
 export default defineConfig({
     // Directory where the tests are located.
     testDir: './tests',
+    // Global setup and teardown scripts for the test suite.
+    globalSetup: './src/global-setup.ts',
+    globalTeardown: './src/global-teardown.ts',
     // Fail the build if a stray test.only was committed.
     forbidOnly: !!process.env.CI,
     // Timeout for api calls 
