@@ -1,0 +1,1 @@
+[perf] get-board-lists: n=20 p50=146.71ms p90=203.4ms p95=209.15ms max=241.57ms (rate-limited: 0)

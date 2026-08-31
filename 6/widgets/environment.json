@@ -1,0 +1,1 @@
+[{"values":["v22.23.2"],"name":"node_version"},{"values":["linux"],"name":"os"},{"values":["https://api.trello.com/1"],"name":"api_base_url"},{"values":["1000"],"name":"read_sla_ms"},{"values":["1500"],"name":"write_sla_ms"},{"values":["true"],"name":"ci"}]
