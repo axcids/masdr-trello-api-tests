@@ -81,6 +81,10 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
+      - name: Remove Git metadata from retrieved history
+        if: always()
+        run: rm -rf gh-pages/.git || true
+
       - name: Build Allure report with trend history
         if: always()
         uses: simple-elf/allure-report-action@v1.15
