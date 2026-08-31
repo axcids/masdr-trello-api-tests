@@ -1,0 +1,10 @@
+# Normalise line endings: LF in the repository on every platform.
+# Without this, editing on Windows rewrites every file and produces
+# diffs that contain no actual change.
+* text=auto eol=lf
+
+# Lockfiles and binaries must never be munged.
+package-lock.json -diff linguist-generated
+*.png binary
+*.jpg binary
+*.ico binary
