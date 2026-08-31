@@ -1,0 +1,106 @@
+name: Trello API Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# One Trello token means one shared rate-limit budget, so runs must not
+# overlap. cancel-in-progress stays false: cancelling mid-run would skip
+# fixture teardown and orphan real Trello boards.
+concurrency:
+  group: trello-api-tests
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Run suite and publish Allure report
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Deliberately no `playwright install`: this suite drives the Trello
+      # REST API through Playwright's request context and never launches a
+      # browser, so downloading browser binaries would waste ~2 min a run.
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Run end-to-end and functional tests
+        id: tests
+        continue-on-error: true
+        env:
+          TRELLO_API_KEY: ${{ secrets.TRELLO_API_KEY }}
+          TRELLO_TOKEN: ${{ secrets.TRELLO_TOKEN }}
+        run: npx playwright test --project=e2e --project=functional
+
+      - name: Run performance tests
+        id: perf
+        continue-on-error: true
+        env:
+          TRELLO_API_KEY: ${{ secrets.TRELLO_API_KEY }}
+          TRELLO_TOKEN: ${{ secrets.TRELLO_TOKEN }}
+        # Separate step pinned to one worker: concurrent requests would
+        # measure contention rather than endpoint latency.
+        run: npx playwright test --project=performance --workers=1
+
+      - name: Build single-file Allure report
+        if: always()
+        run: npx allure awesome allure-results -o allure-single --single-file
+
+      - name: Upload downloadable report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report-${{ github.run_number }}
+          path: allure-single
+          retention-days: 30
+
+      - name: Retrieve previous report history
+        if: always()
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Build Allure report with trend history
+        if: always()
+        uses: simple-elf/allure-report-action@v1.15
+        with:
+          allure_results: allure-results
+          gh_pages: gh-pages
+          allure_report: allure-report
+          allure_history: allure-history
+          keep_reports: 20
+
+      - name: Publish report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
+
+      - name: Fail the build if any tests failed
+        if: steps.tests.outcome == 'failure' || steps.perf.outcome == 'failure'
+        run: |
+          echo "Test failures detected. See the Allure report for detail."
+          exit 1
