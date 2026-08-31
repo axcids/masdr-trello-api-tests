@@ -1,4 +1,4 @@
-# Masdr Technical Challenge
+# Masdr Trello API Tests
 
 Automated API test suite for the Trello REST API, built with Playwright.
 
