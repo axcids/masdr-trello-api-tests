@@ -1,11 +1,10 @@
 import { test, expect } from '../../src/fixtures/trello.fixtures';
 import { uniqueName } from '../../src/utils/naming';
+
 import type { TrelloBoard, TrelloList, TrelloCard } from '../../src/types/trello.types';
 
 test.describe('Trello end-to-end workflow', () => {
-    test('creates a board, list and card, updates the card, then removes everything', async ({
-        trello,
-    }) => {
+    test('creates a board, list and card, updates the card, then removes everything', async ({trello, }) => {
         // Resources are created and destroyed by the test itself, because
         // teardown is part of the workflow under test. The run-scoped orphan
         // sweep is the safety net if an assertion fails before cleanup.
