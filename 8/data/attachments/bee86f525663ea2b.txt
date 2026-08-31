@@ -1,0 +1,1 @@
+[perf] get-board: n=20 p50=93.19ms p90=139.25ms p95=139.89ms max=144.07ms (rate-limited: 0)
